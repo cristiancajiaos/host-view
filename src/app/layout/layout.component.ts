@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { FooComponent } from './../foo/foo.component';
+import { ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LayoutComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild("container", { read: ViewContainerRef }) ctr: ViewContainerRef;
+
+  constructor(
+    private resolve: ComponentFactoryResolver
+  ) { }
 
   ngOnInit(): void {
+
+  }
+
+  ngAfterViewInit(): void {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.ctr.createComponent(FooComponent);
   }
 
 }
